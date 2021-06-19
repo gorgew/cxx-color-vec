@@ -8,7 +8,7 @@ Compiler with some C++20 support. Tests require Catch2.
 ## Usage
 
 ```
-#import "color-vec.hpp"
+#include "color-vec.hpp"
 ...
 auto my_color = color-vec::make_rgb(123.0, 70.0, 53.0, 1.0f);
 my_color.r++; //RGB 0-255 red
