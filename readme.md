@@ -10,7 +10,7 @@ Compiler with some C++20 support. Tests require Catch2.
 ```
 #import "color-vec.hpp"
 ...
-auto my_color = color-vec::make_rgb("123.0", "70.0", "53.0", "1.0f");
+auto my_color = color-vec::make_rgb(123.0, 70.0, 53.0, 1.0f);
 my_color.r++; //RGB 0-255 red
 my_color.s -= 20; //HSV saturation
 
