@@ -366,7 +366,7 @@ namespace color_vec {
                 return operator+=(1);
             }
 
-            float operator++(int i) {
+            float operator++(int) {
                 if (t == hsv_type::hue) {
                     float old = calc_hue();
                     operator+= (1);
@@ -390,7 +390,7 @@ namespace color_vec {
                 return operator-=(1);
             }
 
-            float operator--(int i) {
+            float operator--(int) {
                 if (t == hsv_type::hue) {
                     float old = calc_hue();
                     operator-= (1);
@@ -509,11 +509,14 @@ namespace color_vec {
             
     };
 
+    /**
+     * @brief Color vector
+    */
     struct color {
         union {
             float data[4];
             struct {float x, y, z, w;};
-            
+            struct {float float_r, float_g, float_b, a;};
             rgb_access<color, 0> r; // Red  from 0 - 255 RGB scale
             rgb_access<color, 1> g; // Green from 0 - 255 RGB scale
             rgb_access<color, 2> b; // Blue from 0 - 255 RGB scale
@@ -522,7 +525,6 @@ namespace color_vec {
             hsv_access<hsv_type::saturation> s; // Saturation from 0 - 100 scale
             hsv_access<hsv_type::value> v; // Value from 0 - 100 scale
         };
-        float& a = w;
 
         constexpr color() {}
         constexpr color(const float _v) : x(_v), y(_v), z(_v), w(1.0f) {};
@@ -540,6 +542,14 @@ namespace color_vec {
         return os;
     }
 
+    /**
+     * @brief Make color from rgb
+     * @param r Red from 0-255.0f
+     * @param g Green from 0-255.0f
+     * @param b Blue from 0-255.0f
+     * @param alpha Alpha from 0-1.0f
+     * @return color made from  params
+    */
     struct color make_rgb(const to_float auto& r, const to_float auto& g, 
             const to_float auto& b, const float& alpha) {
 
@@ -553,6 +563,12 @@ namespace color_vec {
                      alpha);
     }
 
+    /**
+     * @brief Make color from rgb
+     * @param v Value to assign r, g, and b from 0-255.0f
+     * @param alpha Alpha from 0-1.0f
+     * @return color made from  params
+    */
     struct color make_rgb(const to_float auto& v, const float& alpha) {
 
         check_rgb_bound(v);
@@ -560,6 +576,14 @@ namespace color_vec {
         return color(scaled, alpha);
     }
 
+    /**
+     * @brief Make color from hsv
+     * @param h Hue from 0-360.0f
+     * @param s Saturation from 0-100.0f
+     * @param v Value from 0-100.0f
+     * @param alpha Alpha from 0-1.0f
+     * @return color made from params
+    */
     struct color make_hsv(const to_float auto& h, const to_float auto& s, const to_float auto& v, 
         const to_float auto& alpha) {
         
@@ -573,9 +597,15 @@ namespace color_vec {
      * @return color
     */
     inline struct color make_hex(int32_t hex) {
-        int b = (hex %= 16) + 16 * (hex %= 16);
-        int g = (hex %= 16) + 16 * (hex %= 16);
-        int r = (hex %= 16) + 16 * (hex %= 16);
+        int temp_1 = (hex %= 16);
+        int temp_2 = (hex %= 16);
+        int b = temp_1 + 16 * temp_2;
+        temp_1 = (hex %= 16);
+        temp_2 = (hex %= 16);
+        int g = temp_1 + 16 * temp_2;
+        temp_1 = (hex %= 16);
+        temp_2 = (hex %= 16);
+        int r = temp_1 + 16 * temp_2;
         return color(r, g, b, 1.0f);
     }
 

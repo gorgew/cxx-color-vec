@@ -11,8 +11,8 @@ Compiler with some C++20 support. Tests require Catch2.
 #include "color-vec.hpp"
 ...
 auto my_color = color-vec::make_rgb(123.0, 70.0, 53.0, 1.0f);
-my_color.r++; //RGB 0-255 red
-my_color.s -= 20; //HSV saturation
+my_color.r++; //RGB on 0.0f-255.0f scale
+my_color.s -= 20; //HSV saturation on 0.0f-100.0f scale
 
 //To use with OpenGL
 glUniform4fv(my_uniform_location, 1, *my_color);
